@@ -24,191 +24,122 @@
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body class="min-h-full bg-gradient-to-br from-blue-50 to-indigo-100 p-4"><!-- Notification Container -->
+ <body class="min-h-full bg-gray-50 p-6"><!-- Notification Container -->
   <div id="notificationContainer" class="fixed top-4 right-4 z-50"></div>
-  <div class="max-w-4xl mx-auto"><!-- Form Input -->
-   <div class="no-print bg-white rounded-lg shadow-lg p-6 mb-6">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Buat Invoice Baru</h1>
-    <form id="invoiceForm" class="space-y-4">
-     <div><label for="customerName" class="block text-sm font-medium text-gray-700 mb-1">Nama Pelanggan</label> <input type="text" id="customerName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+  <div class="max-w-5xl mx-auto"><!-- Header -->
+   <div class="no-print mb-8">
+    <h1 class="text-4xl font-bold text-gray-900 mb-2">Invoice Manager</h1>
+    <p class="text-gray-500">Kelola tagihan berlangganan jaringan dengan mudah</p>
+   </div><!-- Form Input -->
+   <div class="no-print bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-6">
+    <h2 class="text-xl font-semibold text-gray-900 mb-6">Buat Invoice Baru</h2>
+    <form id="invoiceForm" class="space-y-5">
+     <div><label for="customerName" class="block text-sm font-medium text-gray-700 mb-2">Nama Pelanggan</label> <input type="text" id="customerName" required placeholder="Masukkan nama pelanggan" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
      </div>
-     <div><label class="block text-sm font-medium text-gray-700 mb-2">Daftar Belanja</label>
-      <div id="itemsList" class="space-y-3 mb-3"><!-- Items will be added here -->
-      </div><button type="button" onclick="addItem()" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition duration-200 flex items-center justify-center gap-2">
-       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-       </svg> Tambah Item Belanja </button>
-     </div>
-     <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-      <div class="flex justify-between items-center"><span class="text-lg font-semibold text-gray-700">Total Pembayaran:</span> <span id="totalAmount" class="text-2xl font-bold text-blue-600">Rp 0</span>
+     <div class="grid grid-cols-2 gap-4">
+      <div><label for="periodMonth" class="block text-sm font-medium text-gray-700 mb-2">Bulan</label> <select id="periodMonth" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"> <option value="">Pilih Bulan</option> <option value="Januari">Januari</option> <option value="Februari">Februari</option> <option value="Maret">Maret</option> <option value="April">April</option> <option value="Mei">Mei</option> <option value="Juni">Juni</option> <option value="Juli">Juli</option> <option value="Agustus">Agustus</option> <option value="September">September</option> <option value="Oktober">Oktober</option> <option value="November">November</option> <option value="Desember">Desember</option> </select>
+      </div>
+      <div><label for="periodYear" class="block text-sm font-medium text-gray-700 mb-2">Tahun</label> <select id="periodYear" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"> <option value="">Pilih Tahun</option> <option value="2025">2025</option> <option value="2026">2026</option> <option value="2027">2027</option> <option value="2028">2028</option> <option value="2029">2029</option> <option value="2030">2030</option> </select>
       </div>
      </div>
-     <div><label for="transactionDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Transaksi</label> <input type="date" id="transactionDate" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+     <div><label for="subscriptionAmount" class="block text-sm font-medium text-gray-700 mb-2">Biaya Berlangganan</label>
+      <div class="relative"><span class="absolute left-4 top-3.5 text-gray-500 font-medium">Rp</span> <input type="number" id="subscriptionAmount" required min="0" step="1000" placeholder="0" class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+      </div>
      </div>
-     <div><label for="address" class="block text-sm font-medium text-gray-700 mb-1">Alamat Pelanggan</label> <textarea id="address" required rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
-     </div><button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-200"> Buat Invoice </button>
+     <div><label for="address" class="block text-sm font-medium text-gray-700 mb-2">Alamat</label> <textarea id="address" required rows="2" placeholder="Masukkan alamat pelanggan" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition resize-none"></textarea>
+     </div>
+     <div><label for="transactionDate" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Pembayaran</label> <input type="date" id="transactionDate" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+     </div>
+     <div><label for="paymentMethod" class="block text-sm font-medium text-gray-700 mb-2">Metode Pembayaran</label> <select id="paymentMethod" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"> <option value="">Pilih Metode Pembayaran</option> <option value="Cash">Cash</option> <option value="Transfer Bank">Transfer Bank</option> </select>
+     </div>
+     <div id="bankSelectionContainer" class="hidden"><label for="bankDestination" class="block text-sm font-medium text-gray-700 mb-2">Bank Tujuan</label> <select id="bankDestination" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"> <option value="">Pilih Bank</option> <option value="MANDIRI (.)">MANDIRI (.)</option> <option value="BCA (6115013142)">BCA (6115013142)</option> </select>
+     </div><button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3.5 rounded-xl transition duration-200 shadow-sm hover:shadow-md"> Buat Invoice </button>
     </form>
    </div><!-- Invoice List -->
-   <div class="no-print bg-white rounded-lg shadow-lg p-6">
-    <div class="flex justify-between items-center mb-4">
-     <h2 class="text-2xl font-bold text-gray-800">Daftar Invoice</h2>
-     <div class="flex gap-2"><button onclick="downloadDatabase()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition duration-200 flex items-center gap-2">
+   <div class="no-print bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+    <div class="flex justify-between items-center mb-6">
+     <h2 class="text-xl font-semibold text-gray-900">Daftar Invoice</h2>
+     <div class="flex gap-2"><button onclick="downloadDatabase()" class="bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm transition duration-200 flex items-center gap-2">
        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-       </svg> Download Database </button> <label class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition duration-200 flex items-center gap-2 cursor-pointer">
+       </svg> Download </button> <label class="bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm transition duration-200 flex items-center gap-2 cursor-pointer">
        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-       </svg> Upload Database <input type="file" id="uploadDatabase" accept=".json" class="hidden" onchange="uploadDatabase(event)"> </label> <button onclick="clearAllData()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition duration-200 flex items-center gap-2">
+       </svg> Upload <input type="file" id="uploadDatabase" accept=".json" class="hidden" onchange="uploadDatabase(event)"> </label> <button onclick="clearAllData()" class="bg-white hover:bg-red-50 border border-gray-200 text-red-600 px-4 py-2 rounded-lg text-sm transition duration-200 flex items-center gap-2">
        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-       </svg> Hapus Semua </button>
+       </svg> Hapus </button>
      </div>
     </div>
     <div id="invoiceList" class="space-y-3">
-     <p class="text-gray-500 text-center py-8">Belum ada invoice. Buat invoice pertama Anda!</p>
+     <p class="text-gray-400 text-center py-12">Belum ada invoice</p>
     </div>
    </div><!-- Invoice Preview (Hidden by default) -->
-   <div id="invoicePreview" class="invoice-container bg-white rounded-lg shadow-lg p-8 mt-6 hidden">
-    <div class="border-b-4 border-blue-600 pb-6 mb-6">
+   <div id="invoicePreview" class="invoice-container bg-white rounded-2xl shadow-sm border border-gray-200 p-12 mt-6 hidden">
+    <div class="border-b-2 border-gray-200 pb-8 mb-8">
      <div class="flex justify-between items-start">
       <div>
-       <svg class="w-20 h-20 mb-2" viewbox="0 0 200 200" fill="none"><!-- Light Bulb --> <!-- Bulb Glass --> <ellipse cx="100" cy="80" rx="35" ry="45" fill="#FCD34D" opacity="0.3" /> <ellipse cx="100" cy="80" rx="30" ry="40" fill="#FDE047" /> <!-- Bulb Highlight --> <ellipse cx="90" cy="70" rx="12" ry="18" fill="#FEF9C3" opacity="0.8" /> <!-- Light Rays --> <line x1="100" y1="35" x2="100" y2="15" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" /> <line x1="135" y1="50" x2="150" y2="35" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" /> <line x1="150" y1="80" x2="170" y2="80" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" /> <line x1="135" y1="110" x2="150" y2="125" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" /> <line x1="65" y1="50" x2="50" y2="35" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" /> <line x1="50" y1="80" x2="30" y2="80" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" /> <line x1="65" y1="110" x2="50" y2="125" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" /> <!-- Bulb Base (Metal Screw) --> <rect x="85" y="120" width="30" height="8" fill="#94A3B8" rx="2" /> <rect x="85" y="130" width="30" height="8" fill="#64748B" rx="2" /> <rect x="85" y="140" width="30" height="8" fill="#94A3B8" rx="2" /> <!-- Bottom Contact --> <rect x="88" y="150" width="24" height="6" fill="#475569" rx="1" /> <circle cx="100" cy="153" r="3" fill="#334155" />
-       </svg>
-       <h2 id="previewCompanyName" class="text-2xl font-bold text-gray-800">KEMBANG TERANG</h2>
-       <p id="previewCompanyAddress" class="text-gray-600 text-sm">Jl. Segara Anak, Kembang Kerang, Kec. Aikmel, Kabupaten Lombok Timur, Nusa Tenggara Bar. 83653</p>
-       <p id="previewCompanyPhone" class="text-gray-600 text-sm font-semibold mt-1">Phone: 0877-7799-9704</p>
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
+         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><!-- Network nodes --> <circle cx="12" cy="12" r="2" fill="currentColor" /> <circle cx="6" cy="6" r="1.5" fill="currentColor" /> <circle cx="18" cy="6" r="1.5" fill="currentColor" /> <circle cx="6" cy="18" r="1.5" fill="currentColor" /> <circle cx="18" cy="18" r="1.5" fill="currentColor" /> <!-- Connection lines --> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.5 10.5L7 7M13.5 10.5L17 7M10.5 13.5L7 17M13.5 13.5L17 17" /> <!-- Signal waves --> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-2.2 0-4 1.8-4 4M12 8c2.2 0 4 1.8 4 4" opacity="0.6" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6c-3.3 0-6 2.7-6 6M12 6c3.3 0 6 2.7 6 6" opacity="0.4" />
+         </svg>
+        </div>
+        <div>
+         <h2 id="previewCompanyName" class="text-2xl font-bold text-gray-900">Sinyalta</h2>
+         <p id="previewCompanySubtitle" class="text-sm text-gray-600 font-medium">PT. IJOELINK BERKAH SOLUTION</p>
+        </div>
+       </div>
+       <p id="previewCompanyAddress" class="text-sm text-gray-600 max-w-md">Jl. Segara Anak, Kembang Kerang, Kec. Aikmel, Kabupaten Lombok Timur, Nusa Tenggara Bar. 83653</p>
+       <p id="previewCompanyPhone" class="text-sm text-gray-600 mt-1">📞 0877-7799-9704</p>
       </div>
       <div class="text-right">
-       <h1 class="text-4xl font-bold text-blue-600">INVOICE</h1>
-       <p class="text-gray-600 mt-2">No: <span id="previewInvoiceNumber"></span></p>
+       <h1 class="text-3xl font-bold text-gray-900 mb-2">INVOICE</h1>
+       <p class="text-sm text-gray-500">No: <span id="previewInvoiceNumber" class="font-semibold text-gray-900"></span></p>
       </div>
      </div>
     </div>
-    <div class="grid grid-cols-2 gap-6 mb-8">
+    <div class="grid grid-cols-2 gap-8 mb-10">
      <div>
-      <h3 class="text-sm font-semibold text-gray-500 mb-2">KEPADA:</h3>
-      <p id="previewCustomerName" class="font-semibold text-gray-800"></p>
-      <p id="previewAddress" class="text-gray-600 mt-1"></p>
+      <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Kepada</p>
+      <p id="previewCustomerName" class="font-semibold text-gray-900 text-lg"></p>
+      <p id="previewAddress" class="text-sm text-gray-600 mt-1"></p>
      </div>
      <div class="text-right">
-      <h3 class="text-sm font-semibold text-gray-500 mb-2">TANGGAL:</h3>
-      <p id="previewDate" class="text-gray-800"></p>
+      <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Tanggal</p>
+      <p id="previewDate" class="text-gray-900 font-medium"></p>
      </div>
     </div>
-    <div class="border border-gray-200 rounded-lg overflow-hidden mb-8">
-     <table class="w-full">
-      <thead class="bg-blue-600 text-white">
-       <tr>
-        <th class="px-6 py-3 text-left">Deskripsi</th>
-        <th class="px-6 py-3 text-center">Qty</th>
-        <th class="px-6 py-3 text-right">Harga</th>
-        <th class="px-6 py-3 text-right">Subtotal</th>
-       </tr>
-      </thead>
-      <tbody id="previewItemsBody"><!-- Items will be inserted here -->
-      </tbody>
-      <tfoot class="bg-gray-50">
-       <tr>
-        <td colspan="3" class="px-6 py-4 text-right font-bold text-gray-800">TOTAL:</td>
-        <td id="previewTotal" class="px-6 py-4 text-right font-bold text-blue-600 text-xl"></td>
-       </tr>
-      </tfoot>
-     </table>
+    <div class="bg-gray-50 rounded-xl p-6 mb-10">
+     <div id="previewItemsBody" class="space-y-4"><!-- Items will be inserted here -->
+     </div>
+     <div class="border-t border-gray-200 mt-6 pt-6">
+      <div class="flex justify-between items-center"><span class="text-lg font-semibold text-gray-900">Total Tagihan</span> <span id="previewTotal" class="text-3xl font-bold text-blue-600"></span>
+      </div>
+     </div>
     </div>
-    <div class="text-center text-gray-600 text-sm border-t border-gray-200 pt-6">
+    <div class="text-center text-sm text-gray-500 border-t border-gray-200 pt-6 mb-8">
      <p id="previewFooter">Terima kasih atas kepercayaan Anda</p>
     </div>
-    <div class="mt-8 flex justify-end">
+    <div class="flex justify-end mb-8">
      <div class="text-center">
-      <p class="text-gray-600 text-sm mb-12">Hormat kami,</p>
-      <div class="border-b-2 border-gray-800 w-48 mb-2"></div>
-      <p class="font-bold text-gray-800">Johandi Agata</p>
-      <p class="text-gray-600 text-sm">Pemilik</p>
+      <p class="text-xs text-gray-500 mb-16">Hormat kami,</p>
+      <div class="border-b-2 border-gray-900 w-48 mb-2"></div>
+      <p class="font-semibold text-gray-900">Johandi Agata</p>
+      <p class="text-xs text-gray-500">Pemilik</p>
      </div>
     </div>
-    <div class="no-print mt-6 flex gap-3"><button onclick="window.print()" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition duration-200"> Cetak Invoice </button> <button onclick="closePreview()" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 rounded-lg transition duration-200"> Tutup </button>
+    <div class="no-print flex gap-3 border-t border-gray-200 pt-6"><button onclick="window.print()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition duration-200"> Cetak Invoice </button> <button onclick="closePreview()" class="flex-1 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 font-medium py-3 rounded-xl transition duration-200"> Tutup </button>
     </div>
    </div>
   </div>
   <script>
     const defaultConfig = {
-      company_name: "KEMBANG TERANG",
+      company_name: "Sinyalta",
+      company_subtitle: "PT. IJOELINK BERKAH SOLUTION",
       company_address: "Jl. Segara Anak, Kembang Kerang, Kec. Aikmel, Kabupaten Lombok Timur, Nusa Tenggara Bar. 83653",
       company_phone: "0877-7799-9704",
       footer_text: "Terima kasih atas kepercayaan Anda"
     };
 
     let invoices = [];
-    let items = [];
-    let itemIdCounter = 0;
     const STORAGE_KEY = 'invoice_database';
-
-    // Items Management Functions
-    function addItem() {
-      const itemId = itemIdCounter++;
-      const itemDiv = document.createElement('div');
-      itemDiv.id = `item-${itemId}`;
-      itemDiv.className = 'border border-gray-300 rounded-lg p-4 bg-gray-50';
-      itemDiv.innerHTML = `
-        <div class="flex gap-3">
-          <div class="flex-1">
-            <label for="itemName-${itemId}" class="block text-xs font-medium text-gray-600 mb-1">Nama Item</label>
-            <input type="text" id="itemName-${itemId}" required placeholder="Contoh: Lampu LED 10W" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="updateTotal()">
-          </div>
-          <div class="w-24">
-            <label for="itemQty-${itemId}" class="block text-xs font-medium text-gray-600 mb-1">Qty</label>
-            <input type="number" id="itemQty-${itemId}" required min="1" value="1" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="updateTotal()">
-          </div>
-          <div class="flex-1">
-            <label for="itemPrice-${itemId}" class="block text-xs font-medium text-gray-600 mb-1">Harga (Rp)</label>
-            <input type="number" id="itemPrice-${itemId}" required min="0" step="1000" placeholder="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="updateTotal()">
-          </div>
-          <div class="flex items-end">
-            <button type="button" onclick="removeItem(${itemId})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-sm transition duration-200">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      `;
-      
-      document.getElementById('itemsList').appendChild(itemDiv);
-      items.push(itemId);
-      updateTotal();
-    }
-
-    function removeItem(itemId) {
-      const itemDiv = document.getElementById(`item-${itemId}`);
-      if (itemDiv) {
-        itemDiv.remove();
-        items = items.filter(id => id !== itemId);
-        updateTotal();
-      }
-    }
-
-    function updateTotal() {
-      let total = 0;
-      items.forEach(itemId => {
-        const qty = parseFloat(document.getElementById(`itemQty-${itemId}`)?.value || 0);
-        const price = parseFloat(document.getElementById(`itemPrice-${itemId}`)?.value || 0);
-        total += qty * price;
-      });
-      
-      document.getElementById('totalAmount').textContent = formatCurrency(total);
-    }
-
-    function getItemsData() {
-      return items.map(itemId => ({
-        name: document.getElementById(`itemName-${itemId}`).value,
-        qty: parseInt(document.getElementById(`itemQty-${itemId}`).value),
-        price: parseFloat(document.getElementById(`itemPrice-${itemId}`).value),
-        subtotal: parseInt(document.getElementById(`itemQty-${itemId}`).value) * parseFloat(document.getElementById(`itemPrice-${itemId}`).value)
-      }));
-    }
-
-    function clearItems() {
-      document.getElementById('itemsList').innerHTML = '';
-      items = [];
-      itemIdCounter = 0;
-      updateTotal();
-    }
 
     // Session Storage Functions
     function saveToSessionStorage() {
@@ -237,18 +168,21 @@
 
     async function onConfigChange(config) {
       const companyName = config.company_name || defaultConfig.company_name;
+      const companySubtitle = config.company_subtitle || defaultConfig.company_subtitle;
       const companyAddress = config.company_address || defaultConfig.company_address;
       const companyPhone = config.company_phone || defaultConfig.company_phone;
       const footerText = config.footer_text || defaultConfig.footer_text;
 
       const previewCompanyName = document.getElementById('previewCompanyName');
+      const previewCompanySubtitle = document.getElementById('previewCompanySubtitle');
       const previewCompanyAddress = document.getElementById('previewCompanyAddress');
       const previewCompanyPhone = document.getElementById('previewCompanyPhone');
       const previewFooter = document.getElementById('previewFooter');
 
       if (previewCompanyName) previewCompanyName.textContent = companyName;
+      if (previewCompanySubtitle) previewCompanySubtitle.textContent = companySubtitle;
       if (previewCompanyAddress) previewCompanyAddress.textContent = companyAddress;
-      if (previewCompanyPhone) previewCompanyPhone.textContent = `Phone: ${companyPhone}`;
+      if (previewCompanyPhone) previewCompanyPhone.textContent = `📞 ${companyPhone}`;
       if (previewFooter) previewFooter.textContent = footerText;
     }
 
@@ -282,31 +216,30 @@
       );
 
       listContainer.innerHTML = sortedInvoices.map(invoice => {
-        const itemCount = invoice.items ? invoice.items.length : 1;
-        const itemsPreview = invoice.items 
-          ? invoice.items.slice(0, 2).map(item => `${item.name} (${item.qty}x)`).join(', ')
-          : invoice.transaction_name || 'Pembayaran';
-        const moreItems = itemCount > 2 ? ` +${itemCount - 2} lainnya` : '';
-        
         return `
-          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition duration-200">
-            <div class="flex justify-between items-start">
-              <div class="flex-1">
-                <div class="flex items-center gap-3 mb-2">
-                  <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">${invoice.invoice_number}</span>
-                  <span class="text-sm text-gray-500">${formatDate(invoice.transaction_date)}</span>
-                  <span class="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">${itemCount} item</span>
+          <div class="border border-gray-200 rounded-xl p-5 hover:border-blue-300 hover:shadow-sm transition duration-200 bg-white">
+            <div class="flex justify-between items-start gap-4">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="text-xs font-medium text-gray-500">${invoice.invoice_number}</span>
+                  <span class="text-xs text-gray-400">•</span>
+                  <span class="text-xs text-gray-500">${formatDate(invoice.transaction_date)}</span>
                 </div>
-                <p class="font-semibold text-gray-800">${invoice.customer_name}</p>
-                <p class="text-sm text-gray-600">${itemsPreview}${moreItems}</p>
-                <p class="text-sm text-gray-600 mt-1">${invoice.address}</p>
-                <p class="text-lg font-bold text-blue-600 mt-2">${formatCurrency(invoice.amount)}</p>
+                <p class="font-semibold text-gray-900 text-lg mb-1">${invoice.customer_name}</p>
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                    ${invoice.period_month} ${invoice.period_year}
+                  </span>
+                </div>
+                <p class="text-sm text-gray-500 truncate">${invoice.address}</p>
+                <p class="text-xs text-gray-500 mt-1">💳 ${invoice.payment_method || 'Cash'}${invoice.bank_destination ? ' - ' + invoice.bank_destination : ''}</p>
+                <p class="text-2xl font-bold text-blue-600 mt-3">${formatCurrency(invoice.amount)}</p>
               </div>
-              <div class="flex gap-2">
-                <button onclick="viewInvoice('${invoice.id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition duration-200">
+              <div class="flex flex-col gap-2">
+                <button onclick="viewInvoice('${invoice.id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 whitespace-nowrap">
                   Lihat
                 </button>
-                <button onclick="deleteInvoice('${invoice.id}')" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition duration-200">
+                <button onclick="deleteInvoice('${invoice.id}')" class="bg-white hover:bg-red-50 border border-gray-200 text-red-600 px-4 py-2 rounded-lg text-sm font-medium transition duration-200 whitespace-nowrap">
                   Hapus
                 </button>
               </div>
@@ -327,34 +260,30 @@
       document.getElementById('previewAddress').textContent = invoice.address;
       document.getElementById('previewDate').textContent = formatDate(invoice.transaction_date);
       
-      // Render items
+      // Render subscription billing
       const itemsBody = document.getElementById('previewItemsBody');
-      if (invoice.items && invoice.items.length > 0) {
-        itemsBody.innerHTML = invoice.items.map(item => `
-          <tr class="border-b border-gray-200">
-            <td class="px-6 py-3 text-gray-800">${item.name}</td>
-            <td class="px-6 py-3 text-center text-gray-800">${item.qty}</td>
-            <td class="px-6 py-3 text-right text-gray-800">${formatCurrency(item.price)}</td>
-            <td class="px-6 py-3 text-right font-semibold text-gray-800">${formatCurrency(item.subtotal)}</td>
-          </tr>
-        `).join('');
-      } else {
-        // Fallback for old invoices without items
-        itemsBody.innerHTML = `
-          <tr class="border-b border-gray-200">
-            <td class="px-6 py-3 text-gray-800">${invoice.transaction_name || 'Pembayaran'}</td>
-            <td class="px-6 py-3 text-center text-gray-800">1</td>
-            <td class="px-6 py-3 text-right text-gray-800">${formatCurrency(invoice.amount)}</td>
-            <td class="px-6 py-3 text-right font-semibold text-gray-800">${formatCurrency(invoice.amount)}</td>
-          </tr>
-        `;
+      let paymentInfo = `<p class="text-sm text-gray-600 mt-2"><strong>Metode Pembayaran:</strong> ${invoice.payment_method || 'Cash'}</p>`;
+      if (invoice.payment_method === 'Transfer Bank' && invoice.bank_destination) {
+        paymentInfo += `<p class="text-sm text-gray-600"><strong>Bank Tujuan:</strong> ${invoice.bank_destination}</p>`;
       }
+      
+      itemsBody.innerHTML = `
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="font-semibold text-gray-900">Tagihan Berlangganan</p>
+            <p class="text-sm text-gray-500 mt-1">Periode: ${invoice.period_month} ${invoice.period_year}</p>
+            ${paymentInfo}
+          </div>
+          <p class="text-xl font-bold text-gray-900">${formatCurrency(invoice.amount)}</p>
+        </div>
+      `;
       
       document.getElementById('previewTotal').textContent = formatCurrency(invoice.amount);
       
       document.getElementById('previewCompanyName').textContent = config.company_name || defaultConfig.company_name;
+      document.getElementById('previewCompanySubtitle').textContent = config.company_subtitle || defaultConfig.company_subtitle;
       document.getElementById('previewCompanyAddress').textContent = config.company_address || defaultConfig.company_address;
-      document.getElementById('previewCompanyPhone').textContent = `Phone: ${config.company_phone || defaultConfig.company_phone}`;
+      document.getElementById('previewCompanyPhone').textContent = `📞 ${config.company_phone || defaultConfig.company_phone}`;
       document.getElementById('previewFooter').textContent = config.footer_text || defaultConfig.footer_text;
 
       document.getElementById('invoicePreview').classList.remove('hidden');
@@ -413,10 +342,13 @@
             id: invoice.id || generateId(),
             invoice_number: invoice.invoice_number,
             customer_name: invoice.customer_name,
-            transaction_name: invoice.transaction_name,
+            period_month: invoice.period_month,
+            period_year: invoice.period_year,
             amount: invoice.amount,
             transaction_date: invoice.transaction_date,
             address: invoice.address,
+            payment_method: invoice.payment_method || 'Cash',
+            bank_destination: invoice.bank_destination || '',
             created_at: invoice.created_at || new Date().toISOString()
           }));
 
@@ -439,17 +371,22 @@
       }
 
       const confirmDiv = document.createElement('div');
-      confirmDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+      confirmDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
       confirmDiv.innerHTML = `
-        <div class="bg-white rounded-lg p-6 max-w-md mx-4">
-          <h3 class="text-xl font-bold text-gray-800 mb-4">Konfirmasi Hapus Semua</h3>
-          <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus semua ${invoices.length} invoice? Tindakan ini tidak dapat dibatalkan.</p>
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-xl">
+          <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Hapus Semua Invoice?</h3>
+          <p class="text-gray-600 mb-6">Anda akan menghapus ${invoices.length} invoice. Tindakan ini tidak dapat dibatalkan.</p>
           <div class="flex gap-3">
-            <button onclick="confirmClearAll()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition duration-200">
-              Ya, Hapus Semua
-            </button>
-            <button onclick="cancelClearAll()" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+            <button onclick="cancelClearAll()" class="flex-1 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 font-medium py-3 rounded-xl transition duration-200">
               Batal
+            </button>
+            <button onclick="confirmClearAll()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-xl transition duration-200">
+              Hapus Semua
             </button>
           </div>
         </div>
@@ -481,7 +418,7 @@
       const notification = document.createElement('div');
       const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500';
       
-      notification.className = `${bgColor} text-white px-6 py-3 rounded-lg shadow-lg mb-2 transition-opacity duration-300`;
+      notification.className = `${bgColor} text-white px-5 py-3 rounded-xl shadow-lg mb-2 transition-opacity duration-300 text-sm font-medium`;
       notification.textContent = message;
       
       const container = document.getElementById('notificationContainer');
@@ -498,22 +435,20 @@
     document.getElementById('invoiceForm').addEventListener('submit', (e) => {
       e.preventDefault();
 
-      if (items.length === 0) {
-        showNotification('Tambahkan minimal 1 item belanja', 'error');
-        return;
-      }
-
-      const itemsData = getItemsData();
-      const totalAmount = itemsData.reduce((sum, item) => sum + item.subtotal, 0);
+      const paymentMethod = document.getElementById('paymentMethod').value;
+      const bankDestination = document.getElementById('bankDestination').value;
 
       const formData = {
         id: generateId(),
         invoice_number: `INV-${String(Date.now()).slice(-6)}`,
         customer_name: document.getElementById('customerName').value,
-        transaction_date: document.getElementById('transactionDate').value,
+        period_month: document.getElementById('periodMonth').value,
+        period_year: document.getElementById('periodYear').value,
+        amount: parseFloat(document.getElementById('subscriptionAmount').value),
         address: document.getElementById('address').value,
-        items: itemsData,
-        amount: totalAmount,
+        transaction_date: document.getElementById('transactionDate').value,
+        payment_method: paymentMethod,
+        bank_destination: paymentMethod === 'Transfer Bank' ? bankDestination : '',
         created_at: new Date().toISOString()
       };
 
@@ -523,9 +458,9 @@
 
       document.getElementById('invoiceForm').reset();
       document.getElementById('transactionDate').value = new Date().toISOString().split('T')[0];
-      clearItems();
+      document.getElementById('bankSelectionContainer').classList.add('hidden');
       
-      showNotification('Invoice berhasil dibuat', 'success');
+      showNotification('Invoice tagihan berhasil dibuat', 'success');
     });
 
     function init() {
@@ -543,6 +478,7 @@
           }),
           mapToEditPanelValues: (config) => new Map([
             ["company_name", config.company_name || defaultConfig.company_name],
+            ["company_subtitle", config.company_subtitle || defaultConfig.company_subtitle],
             ["company_address", config.company_address || defaultConfig.company_address],
             ["company_phone", config.company_phone || defaultConfig.company_phone],
             ["footer_text", config.footer_text || defaultConfig.footer_text]
@@ -552,12 +488,35 @@
 
       document.getElementById('transactionDate').value = new Date().toISOString().split('T')[0];
       
-      // Add first item by default
-      addItem();
+      // Set default year to current year
+      const currentYear = new Date().getFullYear();
+      const yearSelect = document.getElementById('periodYear');
+      if (currentYear >= 2025) {
+        yearSelect.value = currentYear.toString();
+      }
+      
+      // Set default month to current month
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      const currentMonth = new Date().getMonth();
+      document.getElementById('periodMonth').value = months[currentMonth];
+
+      // Payment method change handler
+      document.getElementById('paymentMethod').addEventListener('change', (e) => {
+        const bankContainer = document.getElementById('bankSelectionContainer');
+        const bankSelect = document.getElementById('bankDestination');
+        
+        if (e.target.value === 'Transfer Bank') {
+          bankContainer.classList.remove('hidden');
+          bankSelect.required = true;
+        } else {
+          bankContainer.classList.add('hidden');
+          bankSelect.required = false;
+          bankSelect.value = '';
+        }
+      });
     }
 
     init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99cad6dcb11a1bd5',t:'MTc2MjgzMzE3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99d970ad031cf4a9',t:'MTc2Mjk4NjI3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
